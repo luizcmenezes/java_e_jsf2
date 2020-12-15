@@ -8,7 +8,7 @@
 
 	<ui:composition template="_template.xhtml">
 		<ui:define name="titulo">
-			Login
+			<p:outputLabel value="Login"/>
 		</ui:define>
 		<ui:define name="conteudo">
 		
@@ -23,7 +23,7 @@
 									 value="#{loginBean.usuario.email}" 
 									 required="true"
 									 requiredMessage="Campo obrigatório">
-							<f:passThroughAttribute name="type" value="email"/>		 
+							<f:attribute name="type" value="email"/>		 
 						</p:inputText>
 						<p:messages for="email" id="messageEmail"/>
 						

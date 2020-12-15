@@ -24,7 +24,8 @@
 		</div>
 		<div id="rodape">
 		  <br/><br/>
-		  Usuário logado: <h:outputText value="#{sessionScope['usuarioLogado'].email}" /> 
+		  <h:outputLabel value="Usuário Logado: " rendered="#{usuarioLogado != null}"/>
+		  <h:outputText value="#{sessionScope['usuarioLogado'].email}"/> 
 		  <br/><br/>
 		  copyright 2012
 		  <ui:insert name="rodape">

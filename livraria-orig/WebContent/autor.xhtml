@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 	<ui:composition template="/_template.xhtml">
@@ -13,57 +14,73 @@
 		</f:metadata>
 		
 		<ui:define name="titulo"> 
-			Novo Autor 
+			<p:outputLabel value="Novo Autor"/> 
 		</ui:define>
 		<ui:define name="conteudo">
-			<h:form>
-				<fieldset>
-					<legend>Dados do Autor</legend>
+			<h:form id="autor">
+				<p:fieldset legend="Dados do Autor">
 					<h:panelGrid columns="3">
 						<h:outputLabel value="Nome:" 
 									   for="nome" />
-						<h:inputText id="nome" 
+						<p:inputText id="nome" 
 									 value="#{autorBean.autor.nome}" 
 									 rendered="true" 
+									 required="true"
+									 requiredMessage="Campo obrigatório!"
 									 validatorMessage="O nome tem que ser maior que 3">
 							<f:validateLength minimum="3"/>
 							<f:ajax event="blur" 
 									render="nome"/>
-						</h:inputText>
-						<h:message for="nome" id="messageName"/>
+						</p:inputText>
+						<p:message for="nome" id="messageName"/>
 						<h:outputLabel value="Email:" 
 									   for="email" />
-						<h:inputText id="email" 
+						<p:inputText id="email" 
 									 value="#{autorBean.autor.email}"
-									 required="true">
-							 <f:passThroughAttribute name="type" value="email"/>
-						</h:inputText>
-						<h:message for="email" id="messageEmail"/>
-						<h:commandButton value="Gravar" action="#{autorBean.gravar}"/> 
+									 required="true"
+									 requiredMessage="Campo obrigatório!"
+									 validatorMessage="Email inválido!">
+							 <f:attribute name="type" value="email"/>
+							 <f:passThroughAttribute name="placeholder" value="Email do autor"/>
+							 <f:validateRegex pattern=".+@.+"/>
+							 <f:ajax event="blur" render="messageEmail"/>
+						</p:inputText>
+						<p:message for="email" id="messageEmail"/>
+						
+						<p:commandButton value="Gravar" action="#{autorBean.gravar}" update="@form" process="@form :formTableAutores"/> 
 					</h:panelGrid>
-				</fieldset>
+				</p:fieldset>
 			</h:form>
-	
+			<br/>
 			<h:form id="formTableAutores">
-				<fieldset>
-					<legend>Lista de Autor</legend>
-					<h:dataTable id="tabelaAutores"
-								 value="#{autorBean.autores}"
-								 var="autor">
-						<h:column>
-							<f:facet name="header">Autor</f:facet>
-							<h:outputText value="#{autor.nome}" />
-						</h:column>
-						<h:column>
-								<f:facet name="header">Alterar</f:facet>
-								<h:commandLink value="altera" action="#{autorBean.atualizar(autor)}"/>
-							</h:column>
-							<h:column>
-								<f:facet name="header">Remover</f:facet>
-								<h:commandLink value="remove" action="#{autorBean.remover(autor)}"/>
-							</h:column>
-					</h:dataTable>
-				</fieldset>
+				<p:fieldset legend="Lista">
+					<p:dataTable value="#{autorBean.autores}" var="autor" style="margin-bottom:40px">
+				        <f:facet name="header">
+				            Autores
+				        </f:facet>
+				        <p:column headerText="Id">
+				            <h:outputText value="#{autor.id}" />
+				        </p:column>
+				        <p:column headerText="Nome">
+				            <h:outputText value="#{autor.nome}" />
+				        </p:column>
+				        <p:column headerText="E-mail">
+				            <h:outputText value="#{autor.email}" />
+				        </p:column>
+				        <p:column style="text-align: center">
+					        <p:commandButton icon="fa fa-fw fa-edit" 
+					        			     action="#{autorBean.atualizar(autor)}"
+					        			     value="Editar"
+					        			     title="Editar"
+					        			     update=":autor"/>
+					        <p:commandButton icon="fa fa-fw fa-remove" 
+					        			  	 action="#{autorBean.remover(autor)}"
+					        			  	 value="Remover"
+					        			     title="Remover"
+					        			     update="@form"/>
+				        </p:column>
+				    </p:dataTable>
+				</p:fieldset>
 			</h:form>	
 		</ui:define>
 		 <ui:define name="rodape">
