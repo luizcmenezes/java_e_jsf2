@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 	<h:head />
@@ -11,7 +12,7 @@
 			<h:graphicImage library="img" name="logo.png" width="100" height="80"/>
 			
 			<h:form rendered="#{usuarioLogado != null}">
-				<h:commandButton value="Sair" action="#{loginBean.sair}" />
+				<p:commandButton value="Sair" action="#{loginBean.sair}"  style="float: right"/>
 			</h:form>
 			
 			<h1>
